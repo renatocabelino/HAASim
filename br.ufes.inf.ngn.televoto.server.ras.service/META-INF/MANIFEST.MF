@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Manager
+Bundle-SymbolicName: br.ufes.inf.ngn.televoto.server.ras.service
+Bundle-Version: 1.0.0.qualifier
+Export-Package: br.ufes.inf.ngn.televoto.server.ras.service
+Bundle-Activator: br.ufes.inf.ngn.televoto.server.ras.service.Activator
+Import-Package: org.osgi.framework
+Require-Bundle: jade.jadeOsgi;bundle-version="1.0.0",
+ br.ufes.inf.ngn.televoto.server.ras.service;bundle-version="1.0.0"
+Bundle-ClassPath: lib/jade.jar,
+ lib/jadeOsgiBundle_1.0.0.jar,
+ .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy

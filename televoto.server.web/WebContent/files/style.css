@@ -1,0 +1,36 @@
+body { margin:0; padding:0; background:#eee; text-align:center; }
+
+.title { font-weight: bold;}
+
+#title { font-weight: bold; text-align: center;}   
+
+#container { width: 780px; margin:0 auto; text-align:left; }  
+#container1 { float:left; width:100%; height:200px; }
+#container2 { float:left; width:100%; text-align:center;}
+
+#col1, #col2, #col3  { 
+	float:left;
+	width:33%; 
+	height:100%; 
+}
+
+#col4 {
+	float:left;
+	width:38%; 
+	height:100%; 
+}
+#col5, #col6 {
+	float:left;
+	width:31%;
+	height:100%; 
+}
+
+
+#col4, #col5, #col6 {
+	text-align:center;
+}
+
+
+/*#startAgents, #stopAgents {
+	border: 1px solid;
+}*/

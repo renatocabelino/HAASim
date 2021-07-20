@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+	<filter id="bridge">
+		<filter-name>equinoxbridgefilter</filter-name>
+		<filter-class>org.eclipse.equinox.servletbridge.BridgeFilter</filter-class>
+		<init-param>
+			<param-name>commandline</param-name>
+			<param-value>-console</param-value>			
+		</init-param>		
+		<init-param>
+			<param-name>enableFrameworkControls</param-name>
+			<param-value>true</param-value>			
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>equinoxbridgefilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--
+	  This is required if your application bundles expose JSPs. 
+	-->	
+	<filter-mapping>
+		<filter-name>equinoxbridgefilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+		
+</web-app>

@@ -139,7 +139,7 @@ public class Activator implements BundleActivator {
 		ContainerID destination = new ContainerID();
 		destination.setName(containerName);
 		try {
-			FileReader arq = new FileReader("/televotoclient.conf"); 
+			FileReader arq = new FileReader("/tmp/televotoclient.conf"); 
 			BufferedReader lerArq = new BufferedReader(arq); 
 			String linha = lerArq.readLine();
 			while (linha != null) {

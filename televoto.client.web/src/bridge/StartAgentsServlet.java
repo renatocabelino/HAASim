@@ -18,7 +18,7 @@ public class StartAgentsServlet extends HttpServlet {
 	private void readFile() {
 		flag = false;
 		try { 
-			FileReader arq = new FileReader("/televotoweb.conf"); 
+			FileReader arq = new FileReader("/tmp/televotoweb.conf"); 
 			BufferedReader lerArq = new BufferedReader(arq); 
 			String linha = lerArq.readLine();
 			while (linha != null) {
@@ -57,7 +57,7 @@ public class StartAgentsServlet extends HttpServlet {
 			DatagramPacket pacote = new DatagramPacket(dados, dados.length, destino, porta);
 			socket.send(pacote);
 		} catch (IOException e) { e.printStackTrace(); }
-		resp.sendRedirect("/televoto.client.web");
+		resp.sendRedirect("/tmp/televoto.client.web");
 		resp.setHeader("REFRESH", "0");
     }
 	 

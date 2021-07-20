@@ -23,25 +23,25 @@ public class Activator implements BundleActivator {
 	private static ArrayList<String> agents;
 	
 	//-------------------------------------------------------------------------------
-	// MÉTODOS PÚBLICOS
+	// Mï¿½TODOS Pï¿½BLICOS
 	
-	/* Método externo para iniciar agentes. Geralmente chamado por outra classe.
-	 * @param quantity - quantidade de agentes que serão encerrados.
+	/* Mï¿½todo externo para iniciar agentes. Geralmente chamado por outra classe.
+	 * @param quantity - quantidade de agentes que serï¿½o encerrados.
 	 * */
 	public void start(int quantity) {
 		BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 		startAgents(quantity, context);
 	}
 
-	/* Método externo para iniciar agentes. Geralmente chamado pela linha de comando OSGi.
+	/* Mï¿½todo externo para iniciar agentes. Geralmente chamado pela linha de comando OSGi.
 	 * @param context - contexto do bundle.
 	 * */
 	public void start(BundleContext context) {	
 		startAgents(0, context);
 	}
 	
-	/* Método externo para encerrar agentes. Geralmente chamado por outra classe.
-	 * @param list - nome dos agentes que serão parados
+	/* Mï¿½todo externo para encerrar agentes. Geralmente chamado por outra classe.
+	 * @param list - nome dos agentes que serï¿½o parados
 	 * */
 	@SuppressWarnings("unchecked")
 	public synchronized void stop(Object[] list) {
@@ -78,22 +78,22 @@ public class Activator implements BundleActivator {
 		
 	}
 	
-	/* Método externo para encerrar agentes. Geralmente chamado por outra classe.
-	 * @param quantity - quantidade de agentes que serão encerrados.
+	/* Mï¿½todo externo para encerrar agentes. Geralmente chamado por outra classe.
+	 * @param quantity - quantidade de agentes que serï¿½o encerrados.
 	 * */
 	public void stop(int quantity) {
 		BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 		stopAgents(quantity, context);
 	}
 	
-	/* Método externo para encerrar agentes. Geralmente chamado pela linha de comando OSGi.
+	/* Mï¿½todo externo para encerrar agentes. Geralmente chamado pela linha de comando OSGi.
 	 * @param context - contexto do bundle.
 	 * */
 	public void stop(BundleContext context) {	
 		stopAgents(agents.size(), context);
 	}
 	
-	/* Método externo para reiniciar um agente "travado". Geralmente chamado por outra classe.
+	/* Mï¿½todo externo para reiniciar um agente "travado". Geralmente chamado por outra classe.
 	 * @param int - id do agente.
 	 * */
 	public void restart(String id) {
@@ -102,7 +102,7 @@ public class Activator implements BundleActivator {
 		startAgent(id, context);
 	}
 	
-	/* Método externo que retorna os agentes registrados. Geralmente chamado pela linha de comando OSGi.
+	/* Mï¿½todo externo que retorna os agentes registrados. Geralmente chamado pela linha de comando OSGi.
 	 * @return ArrayList<String> - retorna um ArrayList de nomes dos agentes no formato nome@dominio.
 	 * */
 	public ArrayList<String> getAgents() {
@@ -110,10 +110,10 @@ public class Activator implements BundleActivator {
 	}
 	
 	//-------------------------------------------------------------------------------
-	// MÉTODOS PRIVADOS
+	// Mï¿½TODOS PRIVADOS
 	
-	/* Método interno para iniciar agentes.
-	 * @param quantity - quantidade de agentes que serão encerrados.
+	/* Mï¿½todo interno para iniciar agentes.
+	 * @param quantity - quantidade de agentes que serï¿½o encerrados.
 	 * */
 	@SuppressWarnings("unchecked")
 	private void startAgents(int quantity, BundleContext context) {
@@ -159,8 +159,8 @@ public class Activator implements BundleActivator {
 		}
 	}
 	
-	/* Método interno para iniciar agente que estava "travado".
-	 * @param id - nome do agente que será inicializado.
+	/* Mï¿½todo interno para iniciar agente que estava "travado".
+	 * @param id - nome do agente que serï¿½ inicializado.
 	 * */
 	@SuppressWarnings("unchecked")
 	private void startAgent(String nome, BundleContext context) {
@@ -190,8 +190,8 @@ public class Activator implements BundleActivator {
 		}
 	}
 	
-	/* Método interno para encerrar agentes.
-	 * @param quantity - quantidade de agentes que serão encerrados.
+	/* Mï¿½todo interno para encerrar agentes.
+	 * @param quantity - quantidade de agentes que serï¿½o encerrados.
 	 * @param context - contexto do bundle
 	 * */
 	@SuppressWarnings("unchecked")
@@ -209,8 +209,8 @@ public class Activator implements BundleActivator {
 		} catch (Exception e) {	e.printStackTrace(); }
 	}
 	
-	/* Método interno para encerrar agentes.
-	 * @param quantity - quantidade de agentes que serão encerrados.
+	/* Mï¿½todo interno para encerrar agentes.
+	 * @param quantity - quantidade de agentes que serï¿½o encerrados.
 	 * @param context - contexto do bundle
 	 * */
 	@SuppressWarnings("unchecked")
@@ -237,11 +237,11 @@ public class Activator implements BundleActivator {
 		} catch (Exception e) {	e.printStackTrace(); }
 	}
 	
-	/* Método interno para ler o arquivo de configuração.
+	/* Mï¿½todo interno para ler o arquivo de configuraï¿½ï¿½o.
 	 * */
 	private void readFile() {
 		try { 
-			FileReader arq = new FileReader("/televotoserveras.conf"); 
+			FileReader arq = new FileReader("/tmp/televotoserveras.conf"); 
 			BufferedReader lerArq = new BufferedReader(arq); 
 			String linha = lerArq.readLine();
 			while (linha != null) {

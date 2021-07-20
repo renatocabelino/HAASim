@@ -32,7 +32,7 @@ public class Activator implements BundleActivator {
 		
 		//lendo arquivo de configuracao do televoto
 		try { 
-			FileReader arq = new FileReader("/televotoserverras.conf"); 
+			FileReader arq = new FileReader("/tmp/televotoserverras.conf"); 
 			BufferedReader lerArq = new BufferedReader(arq); 
 			String linha = lerArq.readLine();
 			while (linha != null) {

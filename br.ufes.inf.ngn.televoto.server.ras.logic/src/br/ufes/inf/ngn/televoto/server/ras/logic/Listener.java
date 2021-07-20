@@ -135,7 +135,7 @@ public class Listener extends Agent implements SipListener {
 
 	private Log logger = (Log) LogFactory.getLog(Listener.class);
 	
-	/* Método externo para configurar e iniciar o agente.
+	/* Mï¿½todo externo para configurar e iniciar o agente.
 	 * */
 	@SuppressWarnings("deprecation")
 	public void setup () {
@@ -145,7 +145,7 @@ public class Listener extends Agent implements SipListener {
 			extension 	= (String) parametros[0];
 			domain 		= (String) parametros[1]; 
 			password	= (String) parametros[2];
-			port   	   	= (Integer) parametros[3]; // Porta SIP de escuta do serviço televoto
+			port   	   	= (Integer) parametros[3]; // Porta SIP de escuta do serviï¿½o televoto
 			proxy 		= ((String) parametros[4])	+ ":" + ((String)parametros[5]) + "/UDP";
 			timeoutForwardingNextAS = (Boolean) parametros[6];
 			timeForwardingNextAS = (Integer) parametros[7];
@@ -195,13 +195,13 @@ public class Listener extends Agent implements SipListener {
 		}
 	}
 	
-	/* Método externo para finalizar o agente e salva os dados no arquivo.
+	/* Mï¿½todo externo para finalizar o agente e salva os dados no arquivo.
 	 * */
 	public void takeDown() {
 		Unregistring = true;
 		register(1);
 		try {
-			FileWriter fw = new FileWriter("/televotodata.txt");
+			FileWriter fw = new FileWriter("/tmp/televotodata.txt");
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write("Waiting Time: " + taWaitingAverage);
 			bw.newLine();
@@ -227,8 +227,8 @@ public class Listener extends Agent implements SipListener {
 		}*/
 	}	
 
-	/* Método externo para processar requisições SIP.
-	 * @param requestReceivedEvent - evento de requisição SIP.
+	/* Mï¿½todo externo para processar requisiï¿½ï¿½es SIP.
+	 * @param requestReceivedEvent - evento de requisiï¿½ï¿½o SIP.
 	 * */
 	public synchronized void processRequest(RequestEvent requestReceivedEvent) {
 		String method = requestReceivedEvent.getRequest().getMethod();
@@ -253,7 +253,7 @@ public class Listener extends Agent implements SipListener {
 		}
 	}
 
-	/* Método externo para processar respostas SIP.
+	/* Mï¿½todo externo para processar respostas SIP.
 	 * @param responseReceivedEvent - evento de resposta SIP.
 	 * */
 	public synchronized void processResponse(ResponseEvent responseReceivedEvent) {
@@ -318,7 +318,7 @@ public class Listener extends Agent implements SipListener {
 
 	public void processIOException(IOExceptionEvent tevent) {}
 	
-	/* Método externo para receber conexões via socket.
+	/* Mï¿½todo externo para receber conexï¿½es via socket.
 	 * */
 	public class ServerSocket implements Runnable {
 
@@ -356,7 +356,7 @@ public class Listener extends Agent implements SipListener {
 		}
 	}
 	
-	/* Método interno para receber conexões via socket.
+	/* Mï¿½todo interno para receber conexï¿½es via socket.
 	 * */
 	public void clientSocket(String tipo) {
 		DecimalFormat df = new DecimalFormat("#.##");
@@ -406,8 +406,8 @@ public class Listener extends Agent implements SipListener {
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
-	/* Método interno para verificar a quantidade de agentes disponíveis em relação a quantidade de chamadas. 
-	 * A opção "timeoutWaitingService" deve estar habilitada no arquivo de configuração.
+	/* Mï¿½todo interno para verificar a quantidade de agentes disponï¿½veis em relaï¿½ï¿½o a quantidade de chamadas. 
+	 * A opï¿½ï¿½o "timeoutWaitingService" deve estar habilitada no arquivo de configuraï¿½ï¿½o.
 	 * */
 	private class CheckAgents extends  TimerTask { //aqui
 		public void run() {
@@ -433,8 +433,8 @@ public class Listener extends Agent implements SipListener {
 		}
 	}
 	
-	/* Método interno para iniciar mais agentes. E depois para inserir esses agentes no sistema.
-	 * @param quantity - quantidade de agentes que serão iniciados. Setar valor para ZERO, para que seja definida a quantidade automaticamente.  
+	/* Mï¿½todo interno para iniciar mais agentes. E depois para inserir esses agentes no sistema.
+	 * @param quantity - quantidade de agentes que serï¿½o iniciados. Setar valor para ZERO, para que seja definida a quantidade automaticamente.  
 	 * */
 	private void startAgents(int quantity) {
 		if (quantity == 0 ) {
@@ -547,8 +547,8 @@ public class Listener extends Agent implements SipListener {
 		}
 	}
 	
-	/* Método interno para reiniciar agentes. E depois para ataualizar esses agentes no sistema.
-	 * @param qtt - quantidade de agentes que serão parados.  
+	/* Mï¿½todo interno para reiniciar agentes. E depois para ataualizar esses agentes no sistema.
+	 * @param qtt - quantidade de agentes que serï¿½o parados.  
 	 * */
 	private void restartAgents(String id) {
 		System.out.println("RAS: Restart agent " + id);
@@ -559,8 +559,8 @@ public class Listener extends Agent implements SipListener {
 		getAS(id); 
 	}
 	
-	/* Método interno para encerrar agentes. E depois para inserir esses agentes no sistema.
-	 * @param qtt - quantidade de agentes que serão parados.  
+	/* Mï¿½todo interno para encerrar agentes. E depois para inserir esses agentes no sistema.
+	 * @param qtt - quantidade de agentes que serï¿½o parados.  
 	 * */
 	private void stopAgents(int qtt) {
 		Object list[] = new Object[qtt+1];
@@ -598,7 +598,7 @@ public class Listener extends Agent implements SipListener {
 		//getASs();
 	}
 	
-	/* Método interno para consultar os agentes disponíveis, e inserí-los no sistema.
+	/* Mï¿½todo interno para consultar os agentes disponï¿½veis, e inserï¿½-los no sistema.
 	 * */
 	private void getAS(String id) {
 		Iterator<String> agents = (Iterator<String>) asService.getAgents().iterator();
@@ -613,7 +613,7 @@ public class Listener extends Agent implements SipListener {
 			System.out.println("Agent " + id + " not find!!!");
 	}
 	
-	/* Método interno para consultar os agentes disponíveis, e inserí-los no sistema.
+	/* Mï¿½todo interno para consultar os agentes disponï¿½veis, e inserï¿½-los no sistema.
 	 * */
 	private void getASs() {
 		Iterator<String> agents = (Iterator<String>) asService.getAgents().iterator();
@@ -629,7 +629,7 @@ public class Listener extends Agent implements SipListener {
 			while ( agents.hasNext() ) {
 				String nome = agents.next();
 				Iterator<AS> it = ASsRegistered.iterator();
-				int flag = 0; //Não encontrado
+				int flag = 0; //Nï¿½o encontrado
 				while (it.hasNext()) {
 					if ( ((AS)it.next()).getID().equals( nome.split("@")[0] ) ) {
 						flag = 1;
@@ -648,7 +648,7 @@ public class Listener extends Agent implements SipListener {
 			while ( it.hasNext() ) {
 				agents = (Iterator<String>) asService.getAgents().iterator();
 				String nome;
-				int flag = 0; //Não encontrado
+				int flag = 0; //Nï¿½o encontrado
 				AS as = (AS)it.next();
 				while (agents.hasNext()) {
 					nome = agents.next();
@@ -676,8 +676,8 @@ public class Listener extends Agent implements SipListener {
 		logger.info("Server agents available: " + ASsRegistered.size());
 	}
 	
-	/* Classe para verificar se há um AS disponível.
-	 * Se tiver um agente disponível, será enviada a requisição para ele.
+	/* Classe para verificar se hï¿½ um AS disponï¿½vel.
+	 * Se tiver um agente disponï¿½vel, serï¿½ enviada a requisiï¿½ï¿½o para ele.
 	 * */
 	public class FirstAS implements Runnable {
 		RAS ras;
@@ -705,7 +705,7 @@ public class Listener extends Agent implements SipListener {
 		}
 	}	
 	
-	/* Método interno para inserir um agente disponível (que antes estava ocupado), no final da fila de agentes ociosos.
+	/* Mï¿½todo interno para inserir um agente disponï¿½vel (que antes estava ocupado), no final da fila de agentes ociosos.
 	 * @param asAddress - nome do agente no formato nome@dominio.
 	 * */
 	private void setLastAS(String asAddress) {
@@ -724,7 +724,7 @@ public class Listener extends Agent implements SipListener {
 		}		
 	}
 	
-	/* Método interno para manter o registro do agente.
+	/* Mï¿½todo interno para manter o registro do agente.
 	 * */
 	class KeepAlive extends TimerTask {
 		public KeepAlive(){	}
@@ -734,8 +734,8 @@ public class Listener extends Agent implements SipListener {
 		}
 	}
 		
-	/* Método interno para registrar/desregistrar um agente.
-	 * @param step -  fase do processo de autenticação. Valores 1 ou 2.
+	/* Mï¿½todo interno para registrar/desregistrar um agente.
+	 * @param step -  fase do processo de autenticaï¿½ï¿½o. Valores 1 ou 2.
 	 * */
 	private void register(int step) {
 		try {	
@@ -854,8 +854,8 @@ public class Listener extends Agent implements SipListener {
 		private Calendar timeCallSet;
 		private Calendar timeCallEnd;
 		
-		/* Método construtor da classe, que seta os parâmetros iniciais.
-		 * @param myCallID - Identificação da chamada. */
+		/* Mï¿½todo construtor da classe, que seta os parï¿½metros iniciais.
+		 * @param myCallID - Identificaï¿½ï¿½o da chamada. */
 		@SuppressWarnings("deprecation")
 		private RAS(String myCallID, Calendar callArrival) {
 			timeCallArrival = callArrival;
@@ -898,36 +898,36 @@ public class Listener extends Agent implements SipListener {
 
 		}
 		
-		/* Método interno que retorna o status do serviço/atendimento.
+		/* Mï¿½todo interno que retorna o status do serviï¿½o/atendimento.
 		 * @return int - NOTANSWERED / ONNEGOTIATION / ESTABLISHED / INCLOSING
 		 * */
 		private int getServiceStatus() {
 			return serviceStatus;
 		}
 		
-		/* Método interno que retorna a identificação da chamada.
-		 * @return String - identificação da ligação.
+		/* Mï¿½todo interno que retorna a identificaï¿½ï¿½o da chamada.
+		 * @return String - identificaï¿½ï¿½o da ligaï¿½ï¿½o.
 		 * */
 		public String getCallID() {
 			return callID;
 		}
 
-		/* Método interno que retorna o nome do AS.
-		 * @return String - nome do AS, sem o domínio.
+		/* Mï¿½todo interno que retorna o nome do AS.
+		 * @return String - nome do AS, sem o domï¿½nio.
 		 * */
 		public String getAS() {
 			return asAddress.split("@")[0];
 		}
 		
-		/* Método interno que retorna o nome do cliente.
-		 * @return String - nome do cliente, sem o domínio.
+		/* Mï¿½todo interno que retorna o nome do cliente.
+		 * @return String - nome do cliente, sem o domï¿½nio.
 		 * */
 		public String getUE() {
 			return ueAddress.split("@")[0];
 		}		
 		
-		/* Método interno que retorna o tempo de espera do cliente, até que inicie a negociação com um AS disponível.
-		 * @return long - tempo de espera para início da negociação.
+		/* Mï¿½todo interno que retorna o tempo de espera do cliente, atï¿½ que inicie a negociaï¿½ï¿½o com um AS disponï¿½vel.
+		 * @return long - tempo de espera para inï¿½cio da negociaï¿½ï¿½o.
 		 * */
 		public long getTimeinQueue1() {
 			if (timeCallNoReply != null)
@@ -937,8 +937,8 @@ public class Listener extends Agent implements SipListener {
 				}
 		}
 		
-		/* Método interno que retorna o tempo de espera do cliente, até que a ligação tenha sido estabelecida com o AS e o cliente.
-		 * @return long - tempo de espera até que a ligação seja estabelecida.
+		/* Mï¿½todo interno que retorna o tempo de espera do cliente, atï¿½ que a ligaï¿½ï¿½o tenha sido estabelecida com o AS e o cliente.
+		 * @return long - tempo de espera atï¿½ que a ligaï¿½ï¿½o seja estabelecida.
 		 * */		
 		public long getTimeinQueue2() {
 			if (timeCallSet != null)
@@ -947,18 +947,18 @@ public class Listener extends Agent implements SipListener {
 				return (Calendar.getInstance().getTimeInMillis() - timeCallArrival.getTimeInMillis());
 		}
 		
-		/* Método interno que retorna o tempo total da ligação, até que receba o BYE.
-		 * @return long - tempo total da ligação.
+		/* Mï¿½todo interno que retorna o tempo total da ligaï¿½ï¿½o, atï¿½ que receba o BYE.
+		 * @return long - tempo total da ligaï¿½ï¿½o.
 		 * */	
 		public long getTimeTotal() {
 			return (timeCallEnd.getTimeInMillis() - timeCallArrival.getTimeInMillis());
 		}
 		
-		/* Classe para verificar se a resposta a uma solicitação, foi respodinda em um tempo definido.
-		 * Se o tipo de requisição for "INVITE" e não for respondido dentro do tempo difinido, então será selecionado outro AS.
-		 * Se o tipo de requisição for "BYE" e não for respondido dentro do tempo, o AS será inserido na fila de agentes ociosos e o RAS será removido.
-		 * @param type = tipo de requisição, "INVITE" ou "BYE". 
-		 * @param ras = objeto RAS que será removido (this).
+		/* Classe para verificar se a resposta a uma solicitaï¿½ï¿½o, foi respodinda em um tempo definido.
+		 * Se o tipo de requisiï¿½ï¿½o for "INVITE" e nï¿½o for respondido dentro do tempo difinido, entï¿½o serï¿½ selecionado outro AS.
+		 * Se o tipo de requisiï¿½ï¿½o for "BYE" e nï¿½o for respondido dentro do tempo, o AS serï¿½ inserido na fila de agentes ociosos e o RAS serï¿½ removido.
+		 * @param type = tipo de requisiï¿½ï¿½o, "INVITE" ou "BYE". 
+		 * @param ras = objeto RAS que serï¿½ removido (this).
 		 * */
 		class CheckAnswer extends TimerTask {
 			String type;
@@ -994,9 +994,9 @@ public class Listener extends Agent implements SipListener {
 			}
 		}
 		
-		/* Classe para verificar se o tempo de estabelecimento da chamada está maior que o normal.
-		 * Se o tempo tiver excedido, a ligação será encerrada e o RAS excluído.
-		 * Para funcionar é necessário setar a opção no arquivo de configuração.
+		/* Classe para verificar se o tempo de estabelecimento da chamada estï¿½ maior que o normal.
+		 * Se o tempo tiver excedido, a ligaï¿½ï¿½o serï¿½ encerrada e o RAS excluï¿½do.
+		 * Para funcionar ï¿½ necessï¿½rio setar a opï¿½ï¿½o no arquivo de configuraï¿½ï¿½o.
 		 * */
 		class CheckTimeoutEstablished extends TimerTask {
 			RAS ras;
@@ -1024,9 +1024,9 @@ public class Listener extends Agent implements SipListener {
 			}
 		}
 		
-		/* Classe para verificar se o tempo de negociação da chamada está maior que o normal.
-		 * Se o tempo tiver excedido, a ligação será encerrada e o RAS excluído.
-		 * Para funcionar é necessário setar a opção no arquivo de configuração.
+		/* Classe para verificar se o tempo de negociaï¿½ï¿½o da chamada estï¿½ maior que o normal.
+		 * Se o tempo tiver excedido, a ligaï¿½ï¿½o serï¿½ encerrada e o RAS excluï¿½do.
+		 * Para funcionar ï¿½ necessï¿½rio setar a opï¿½ï¿½o no arquivo de configuraï¿½ï¿½o.
 		 * */
 		class CheckTimeoutOnNegotiation extends TimerTask {
 			RAS ras;
@@ -1047,8 +1047,8 @@ public class Listener extends Agent implements SipListener {
 		}
 		
 		/* Classe para verificar se o tempo de espera na fila de atendimento foi excedido.
-		 * Se o tempo tiver excedido, a ligação será encerrada e o RAS excluído.
-		 * Para funcionar é necessário setar a opção no arquivo de configuração.
+		 * Se o tempo tiver excedido, a ligaï¿½ï¿½o serï¿½ encerrada e o RAS excluï¿½do.
+		 * Para funcionar ï¿½ necessï¿½rio setar a opï¿½ï¿½o no arquivo de configuraï¿½ï¿½o.
 		 * */
 		class CheckTimeoutWaitingService extends TimerTask {
 			RAS ras;
@@ -1082,7 +1082,7 @@ public class Listener extends Agent implements SipListener {
 			}
 		}
 
-		/* Método interno para enviar um requisição INVITE para um AS.
+		/* Mï¿½todo interno para enviar um requisiï¿½ï¿½o INVITE para um AS.
 		 * */
 		private void sendInviteToAS() {
 			if (!canceled) {
@@ -1131,7 +1131,7 @@ public class Listener extends Agent implements SipListener {
 			}
 		}
 		
-		/* Método interno para enviar uma resposta do tipo "180" para o cliente.
+		/* Mï¿½todo interno para enviar uma resposta do tipo "180" para o cliente.
 		 * */
 		private void send180ToUE() {
 			try {
@@ -1146,8 +1146,8 @@ public class Listener extends Agent implements SipListener {
 			} catch (Exception e) { e.printStackTrace(); }
 		}
 		
-		/* Método interno para processar requisições SIP.
-		 * @param requestReceivedEvent - evento de requisição SIP.
+		/* Mï¿½todo interno para processar requisiï¿½ï¿½es SIP.
+		 * @param requestReceivedEvent - evento de requisiï¿½ï¿½o SIP.
 		 * */
 		public synchronized void processRequest(RequestEvent requestReceivedEvent) {
 			Request myRequestReceived = requestReceivedEvent.getRequest();
@@ -1269,7 +1269,7 @@ public class Listener extends Agent implements SipListener {
 			}catch (Exception e) { e.printStackTrace(); }
 		}
 
-		/* Método interno para processar respostas SIP.
+		/* Mï¿½todo interno para processar respostas SIP.
 		 * @param responseReceivedEvent - evento de resposta SIP.
 		 * */
 		public synchronized void processResponse(ResponseEvent responseReceivedEvent) {

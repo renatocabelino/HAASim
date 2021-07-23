@@ -1,4 +1,4 @@
-package br.ufes.inf.ngn.televoto.client.logic;
+package br.ufes.inf.haasim.logic;
 import gov.nist.javax.sip.header.Authorization;
 import gov.nist.javax.sip.header.HeaderFactoryImpl;
 import gov.nist.javax.sip.header.Supported;
@@ -337,7 +337,8 @@ public class Listener extends Agent implements SipListener {
 							sendInvite();
 						} else {
 							status=IDLE;
-							br.ufes.inf.ngn.televoto.client.service.Activator asService = new br.ufes.inf.ngn.televoto.client.service.Activator ();
+							
+							br.ufes.inf.haasim.service.Activator asService = new br.ufes.inf.haasim.service.Activator ();
 							asService.takeOff(userID.split("@")[0]);
 						}		
 					}
@@ -387,7 +388,7 @@ public class Listener extends Agent implements SipListener {
 								sendInvite();
 							} else {
 								status=IDLE;
-								br.ufes.inf.ngn.televoto.client.service.Activator asService = new br.ufes.inf.ngn.televoto.client.service.Activator ();
+								br.ufes.inf.haasim.service.Activator asService = new br.ufes.inf.haasim.service.Activator ();
 								asService.takeOff(userID.split("@")[0]);
 							}	
 							break;
@@ -418,7 +419,7 @@ public class Listener extends Agent implements SipListener {
 								sendInvite();
 							} else {
 								status=IDLE;
-								br.ufes.inf.ngn.televoto.client.service.Activator asService = new br.ufes.inf.ngn.televoto.client.service.Activator ();
+								br.ufes.inf.haasim.service.Activator asService = new br.ufes.inf.haasim.service.Activator ();
 								asService.takeOff(userID.split("@")[0]);
 							}	
 							break;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+	<servlet>
+		<servlet-name>StartAgentsServlet</servlet-name>
+	  	<servlet-class>bridge.StartAgentsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StartAgentsServlet</servlet-name>
+		<url-pattern>/StartAgentsServlet</url-pattern>
+	</servlet-mapping>
+</web-app>

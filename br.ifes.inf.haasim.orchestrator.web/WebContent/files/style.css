@@ -1,0 +1,19 @@
+body { margin:0; padding:0; background:#eee; text-align:center; }
+
+.title { font-weight: bold;}
+
+#title { font-weight: bold; text-align: center;}   
+
+#container { width: 700px; margin:0 auto; text-align:left; }  
+#container1 { float:left; width:100%; height:200px; }
+#container2 { float:left; width:100%; text-align:center;}
+
+#col1, #col2, #col3 { 
+	float:left;
+	width:33%; 
+	height:100%; 
+}
+
+#col3 {
+	text-align:center;
+}

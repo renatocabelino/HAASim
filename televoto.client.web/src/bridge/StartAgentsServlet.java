@@ -57,7 +57,7 @@ public class StartAgentsServlet extends HttpServlet {
 			DatagramPacket pacote = new DatagramPacket(dados, dados.length, destino, porta);
 			socket.send(pacote);
 		} catch (IOException e) { e.printStackTrace(); }
-		resp.sendRedirect("/tmp/televoto.client.web");
+		resp.sendRedirect("/televoto.client.web");
 		resp.setHeader("REFRESH", "0");
     }
 	 

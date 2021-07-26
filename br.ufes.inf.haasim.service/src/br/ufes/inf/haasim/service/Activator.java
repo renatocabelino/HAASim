@@ -9,14 +9,22 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
-
+import jade.core.Agent;
 import jade.core.ContainerID;
+import jade.core.Profile;
+import jade.core.ProfileImpl;
+import jade.core.Runtime;
 import jade.osgi.service.runtime.JadeRuntimeService;
 import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
+import jade.wrapper.StaleProxyException;
+
 
 public class Activator implements BundleActivator {
 
@@ -32,6 +40,9 @@ public class Activator implements BundleActivator {
 	private static PoissonDistribution pd;
 	private static DatagramSocket clientSocket, serverSocket;
 	private static Thread tSocket;
+	private static jade.core.Runtime runtime;
+	private static Profile profileContainer;
+	private ContainerController containerHipertenso, containerDiabetico;
 	
 	/* Método interno para receber conexões via socket.
 	 * @param String - tipo de mensagem que será enviada por Socket.
@@ -71,6 +82,7 @@ public class Activator implements BundleActivator {
 			   	while (true) {
 			   		serverSocket.receive(pacote);
 			    	String mensagem = new String(pacote.getData(), 0, pacote.getLength() );
+			    	//System.out.println(mensagem);
 			     	switch (mensagem.split(":")[0]) {
 			     	case "agents":
 				     	int qtt = Integer.parseInt( (mensagem.split(":")[1]).split("=")[1] );
@@ -96,6 +108,7 @@ public class Activator implements BundleActivator {
 		Object parametros[] = new Object[11];
 		if(jadeRef != null) {
 			jrs = context.getService(jadeRef);
+			
 			try {
 				if (agents.isEmpty()) {
 					i = firstextension;
@@ -118,9 +131,14 @@ public class Activator implements BundleActivator {
 					parametros[9] = redial;
 					parametros[10]= timeoutwaitingservice;
 					agents.add( Integer.toString(i) );
-					ac = jrs.createNewAgent(parametros[0].toString(), "br.ufes.inf.haasim.logic.Listener", parametros, "br.ufes.inf.haasim.logic");
-					ac.start();
-					Thread.sleep( pd.sample() );
+					try {
+					  Agent myAgent = new br.ufes.inf.haasim.logic.PacienteHipertenso();
+					  ac = containerHipertenso.acceptNewAgent(parametros[0].toString(), myAgent);
+					  ac.start();
+					  Thread.sleep( pd.sample() );
+					} catch (StaleProxyException e) {
+					    e.printStackTrace();
+					}
 				}				
 			} catch(Exception e) { System.out.println("Cannot start Agent: " + e); }
 		} else {
@@ -135,9 +153,22 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {	
 		Activator.context = bundleContext;
 		jadeRef = context.getServiceReference(JadeRuntimeService.class.getName());
-		String containerName = "Container-1";
-		ContainerID destination = new ContainerID();
-		destination.setName(containerName);
+		//Get the JADE runtime interface (singleton)
+		runtime = jade.core.Runtime.instance();
+		//Create a Profile, where the launch arguments are stored
+		profileContainer = new ProfileImpl();
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "AgentesHipertensos");
+		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
+		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
+		//criando container para agentes do perfil hipertenso
+		containerHipertenso = runtime.createAgentContainer(profileContainer);
+		//criando container para agentes do perfil diabetico
+		profileContainer = new ProfileImpl();
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "AgentesDiabeticos");
+		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
+		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
+		containerDiabetico = runtime.createAgentContainer(profileContainer);
+		
 		try {
 			FileReader arq = new FileReader("/tmp/televotoclient.conf"); 
 			BufferedReader lerArq = new BufferedReader(arq); 

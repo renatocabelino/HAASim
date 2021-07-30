@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/jmf.jar"/>
 	<classpathentry kind="lib" path="lib/jadeOsgiBundle_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/jade.jar"/>
+	<classpathentry kind="lib" path="lib/json-20210307.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

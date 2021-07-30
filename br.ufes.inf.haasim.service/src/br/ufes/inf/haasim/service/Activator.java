@@ -101,7 +101,7 @@ public class Activator implements BundleActivator {
 	 * param int - quantidade de agentes que serão iniciados.
 	 * */
 	@SuppressWarnings("unchecked")
-	private void startAgents(int qtt) {
+	private synchronized void startAgents(int qtt) {
 		int lastExtension;
 		Object parametros[] = new Object[11];
 		if(jadeRef != null) {
@@ -130,7 +130,8 @@ public class Activator implements BundleActivator {
 					parametros[10]= timeoutwaitingservice;
 					agents.add( Integer.toString(i) );
 					try {
-					  Agent myAgent = new br.ufes.inf.haasim.logic.PacienteHipertenso();
+					  Agent myAgent = new br.ufes.inf.haasim.logic.BlodPressureLogic();
+					  myAgent.setArguments(parametros);
 					  ac = containerHipertenso.acceptNewAgent(parametros[0].toString(), myAgent);
 					  ac.start();
 					  //Thread.sleep( pd.sample() );
@@ -156,7 +157,7 @@ public class Activator implements BundleActivator {
 		//Create a Profile, where the launch arguments are stored
 		profileContainer = new ProfileImpl();
 		profileContainer.setParameter(Profile.CONTAINER_NAME, "AgentesHipertensos");
-		profileContainer.setParameter(Profile.MAIN_HOST, "192.168.0.213");
+		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
 		profileContainer.setParameter(Profile.MAIN_PORT, "1099");
 		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
 		//criando container para agentes do perfil hipertenso

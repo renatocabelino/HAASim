@@ -9,17 +9,14 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+
 import jade.core.Agent;
-import jade.core.ContainerID;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
-import jade.core.Runtime;
 import jade.osgi.service.runtime.JadeRuntimeService;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
@@ -60,6 +57,7 @@ public class Activator implements BundleActivator {
 					mensagem = "agent:total="+agents.size();
 					break;
 			}
+			System.out.println(mensagem);
 			byte[] dados = mensagem.getBytes();
 			int porta = 9998;
 			DatagramPacket pacote = new DatagramPacket(dados, dados.length, destino, porta);
@@ -135,7 +133,7 @@ public class Activator implements BundleActivator {
 					  Agent myAgent = new br.ufes.inf.haasim.logic.PacienteHipertenso();
 					  ac = containerHipertenso.acceptNewAgent(parametros[0].toString(), myAgent);
 					  ac.start();
-					  Thread.sleep( pd.sample() );
+					  //Thread.sleep( pd.sample() );
 					} catch (StaleProxyException e) {
 					    e.printStackTrace();
 					}
@@ -158,7 +156,8 @@ public class Activator implements BundleActivator {
 		//Create a Profile, where the launch arguments are stored
 		profileContainer = new ProfileImpl();
 		profileContainer.setParameter(Profile.CONTAINER_NAME, "AgentesHipertensos");
-		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
+		profileContainer.setParameter(Profile.MAIN_HOST, "192.168.0.213");
+		profileContainer.setParameter(Profile.MAIN_PORT, "1099");
 		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
 		//criando container para agentes do perfil hipertenso
 		containerHipertenso = runtime.createAgentContainer(profileContainer);

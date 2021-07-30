@@ -23,7 +23,7 @@ public class ServerSocket implements Runnable {
 	     			socket.receive(pacote);
 	     			String mensagem = new String(pacote.getData(), 0, pacote.getLength() );
 	     			String[] string = (mensagem.split(":")[1]).split("-");
-	     			//System.out.println(mensagem);
+	     			System.out.println(mensagem);
 	     			switch (mensagem.split(":")[0]) {
 	     				case "call":
 	    	     			TelevotoBean.setCallTotalHistory(Integer.parseInt(string[0].split("=")[1]));

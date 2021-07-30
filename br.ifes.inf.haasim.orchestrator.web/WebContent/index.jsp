@@ -20,7 +20,7 @@ import="java.io.IOException,
 	<body>
 		<div id="container">
 			<div id="title">
-				<H1>Televoto Generator's Report</H1>
+				<H1>HDash Cloud HAASim Generator's Report</H1>
 				<div id="loadData"> </div>
 			</div>
 			

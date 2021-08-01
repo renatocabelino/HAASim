@@ -8,7 +8,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -31,15 +30,15 @@ public class Activator implements BundleActivator {
 	private static JadeRuntimeService jrs;
 	private AgentController ac;
 	private static float creationtime;
-	private static int i, k, firstextension, firstclientport, quantityextensions, redial, firstaudioport, timeoutwaitingservice, proxyport;
-	private static String domain, password, proxyaddress, serviceextension, ipweb;;
+	private static int i, firstid, quantityagents, redial;
+	private static String ipweb, agenttype;
 	private static ArrayList<String> agents = new ArrayList<String>();
 	private static PoissonDistribution pd;
 	private static DatagramSocket clientSocket, serverSocket;
 	private static Thread tSocket;
 	private static jade.core.Runtime runtime;
 	private static Profile profileContainer;
-	private ContainerController containerHipertenso, containerDiabetico;
+	private ContainerController ccBloodPressure, ccGlucose, ccHeartRate, ccStep, ccTemperature;
 	
 	/* Método interno para receber conexões via socket.
 	 * @param String - tipo de mensagem que será enviada por Socket.
@@ -51,7 +50,7 @@ public class Activator implements BundleActivator {
 			String mensagem = null;
 			switch (tipo){
 				case "data":
-					mensagem = "data:agents="+quantityextensions+"-redial="+redial+"-frequency="+creationtime;
+					mensagem = "data:agents="+quantityagents+"-redial="+redial+"-frequency="+creationtime;
 					break;
 				case "agent": 
 					mensagem = "agent:total="+agents.size();
@@ -86,7 +85,7 @@ public class Activator implements BundleActivator {
 				     	int qtt = Integer.parseInt( (mensagem.split(":")[1]).split("=")[1] );
 				     	if ( (mensagem.split(":")[1]).split("=")[0].equals("start") ) {
 				     		if (agents.size() == 0)
-				     			startAgents(qtt * quantityextensions / 100 );
+				     			startAgents(qtt * quantityagents / 100 );
 				     		else
 				     			startAgents(qtt * agents.size() / 100 );
 				     	}
@@ -103,36 +102,44 @@ public class Activator implements BundleActivator {
 	@SuppressWarnings("unchecked")
 	private synchronized void startAgents(int qtt) {
 		int lastExtension;
-		Object parametros[] = new Object[11];
+		Object parametros[] = new Object[3];
 		if(jadeRef != null) {
 			jrs = context.getService(jadeRef);
 			
 			try {
 				if (agents.isEmpty()) {
-					i = firstextension;
-					k = 1;
-					lastExtension = i + quantityextensions;
+					i = firstid;
+					lastExtension = i + quantityagents;
 				}
 				else {
 					i = Integer.parseInt( agents.get( agents.size()-1 ) ) + 1;
 					lastExtension = i + qtt;
 				}
-				for ( ; i<lastExtension; i++, k++) {
-					parametros[0] = (String) Integer.toString(i);
-					parametros[1] = domain;
-					parametros[2] = password;
-					parametros[4] = firstclientport+k; 
-					parametros[5] = firstaudioport + 2*k-1;
-					parametros[6] = proxyaddress;
-					parametros[7] = proxyport;
-					parametros[8] = serviceextension;
-					parametros[9] = redial;
-					parametros[10]= timeoutwaitingservice;
-					agents.add( Integer.toString(i) );
+				for ( ; i<lastExtension; i++) {
+					parametros[0] = "AG"+ agenttype + (String) Integer.toString(i);
+					parametros[1] = agenttype;
+					parametros[2] = "normal";
+					agents.add( parametros[0].toString() );
 					try {
-					  Agent myAgent = new br.ufes.inf.haasim.logic.BlodPressureLogic();
+					  Agent myAgent = new br.ufes.inf.haasim.logic.HAASimLogic();
 					  myAgent.setArguments(parametros);
-					  ac = containerHipertenso.acceptNewAgent(parametros[0].toString(), myAgent);
+					  switch (parametros[1].toString()) {
+						case "bloodpressure":
+							ac = ccBloodPressure.acceptNewAgent(parametros[0].toString(), myAgent);
+							break;
+						case "glucose": 
+							ac = ccGlucose.acceptNewAgent(parametros[0].toString(), myAgent);
+							break;
+						case "hearthate":
+							ac = ccHeartRate.acceptNewAgent(parametros[0].toString(), myAgent);
+							break;
+						case "step":
+							ac = ccStep.acceptNewAgent(parametros[0].toString(), myAgent);
+							break;
+						case "temperature": 
+							ac = ccTemperature.acceptNewAgent(parametros[0].toString(), myAgent);
+							break;
+					  }
 					  ac.start();
 					  //Thread.sleep( pd.sample() );
 					} catch (StaleProxyException e) {
@@ -156,19 +163,36 @@ public class Activator implements BundleActivator {
 		runtime = jade.core.Runtime.instance();
 		//Create a Profile, where the launch arguments are stored
 		profileContainer = new ProfileImpl();
-		profileContainer.setParameter(Profile.CONTAINER_NAME, "AgentesHipertensos");
+		//criando container para agentes do perfil bloodpressure
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "BloodPressure Agents");
 		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
 		profileContainer.setParameter(Profile.MAIN_PORT, "1099");
 		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
-		//criando container para agentes do perfil hipertenso
-		containerHipertenso = runtime.createAgentContainer(profileContainer);
-		//criando container para agentes do perfil diabetico
+		ccBloodPressure = runtime.createAgentContainer(profileContainer);
+		//criando container para agentes do perfil glucose
 		profileContainer = new ProfileImpl();
-		profileContainer.setParameter(Profile.CONTAINER_NAME, "AgentesDiabeticos");
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "Glucose Agents");
 		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
 		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
-		containerDiabetico = runtime.createAgentContainer(profileContainer);
-		
+		ccGlucose = runtime.createAgentContainer(profileContainer);
+		//criando container para agentes do perfil heartrate
+		profileContainer = new ProfileImpl();
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "Heart Rate Agents");
+		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
+		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
+		ccHeartRate = runtime.createAgentContainer(profileContainer);		
+		//criando container para agentes do perfil step
+		profileContainer = new ProfileImpl();
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "Step Agents");
+		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
+		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
+		ccStep = runtime.createAgentContainer(profileContainer);
+		//criando container para agentes do perfil step
+		profileContainer = new ProfileImpl();
+		profileContainer.setParameter(Profile.CONTAINER_NAME, "Temperature Agents");
+		profileContainer.setParameter(Profile.MAIN_HOST, "localhost");
+		profileContainer.setParameter(Profile.ACCEPT_FOREIGN_AGENTS, "true");
+		ccTemperature = runtime.createAgentContainer(profileContainer);
 		try {
 			FileReader arq = new FileReader("/tmp/televotoclient.conf"); 
 			BufferedReader lerArq = new BufferedReader(arq); 
@@ -176,45 +200,21 @@ public class Activator implements BundleActivator {
 			while (linha != null) {
 				if (!linha.startsWith("#")) {
 					switch ( (linha.split("="))[0] ) {
-						case ("firstclientport"):
-							firstclientport = Integer.parseInt(linha.split("=")[1]);
+						case ("quantityagents"):
+							quantityagents = Integer.parseInt(linha.split("=")[1]);
 							break;
-						case ("quantityextensions"):
-							quantityextensions = Integer.parseInt(linha.split("=")[1]);
-							break;
-						case ("firstextension"):
-							firstextension = Integer.parseInt(linha.split("=")[1]);
-							break;
-						case ("domain"):
-							domain = linha.split("=")[1];
-							break;
-						case ("password"):
-							password = linha.split("=")[1];
-							break;
-						case ("proxyaddress"):
-							proxyaddress = linha.split("=")[1];
-							break;
-						case ("proxyport"):
-							proxyport = Integer.parseInt(linha.split("=")[1]);
-							break;
-						case ("firstaudioport"):
-							firstaudioport = Integer.parseInt(linha.split("=")[1]);
-							break;
-						case ("redial"):
-							redial = Integer.parseInt(linha.split("=")[1]);
-							break;
-						case ("timeoutwaitingservice"):
-							timeoutwaitingservice = Integer.parseInt(linha.split("=")[1]);
+						case ("firstid"):
+							firstid = Integer.parseInt(linha.split("=")[1]);
 							break;
 						case ("creationtime"):
 							creationtime = Float.parseFloat(linha.split("=")[1]);
 							pd = new PoissonDistribution((double) (1000 / creationtime) );
 							break;
-						case ("serviceextension"):
-							serviceextension = linha.split("=")[1];
-							break;
 						case ("ipweb"):
 							ipweb = linha.split("=")[1];
+							break;
+						case ("agenttype"):
+							agenttype = linha.split("=")[1];
 							break;
 					}  
 				}
@@ -224,7 +224,7 @@ public class Activator implements BundleActivator {
 			clientSocket("data");
 			tSocket = new Thread( new ServerSocket() );
 			tSocket.start();
-			startAgents(quantityextensions);
+			startAgents(quantityagents);
 		} catch (IOException e) { 
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage()); 
 			System.exit(0);
